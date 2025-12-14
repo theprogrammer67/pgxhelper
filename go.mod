@@ -5,6 +5,7 @@ go 1.25.3
 require (
 	github.com/georgysavva/scany/v2 v2.1.4
 	github.com/jackc/pgx/v5 v5.7.6
+	github.com/theprogrammer67/sqlset v0.2.0
 )
 
 require (
