@@ -1,11 +1,10 @@
 // Package sqlset provides a pgxhelper wrapper that works with
 // github.com/theprogrammer67/sqlset.
-package sqlset
+package sqlsetpgxhelper
 
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/theprogrammer67/pgxhelper"
 	"github.com/theprogrammer67/sqlset"
 )
@@ -18,11 +17,9 @@ type DBHelper struct {
 }
 
 // New creates and returns a new DBHelper.
-func New(pool *pgxpool.Pool, sqlSet *sqlset.SQLSet, opts ...pgxhelper.Option) *DBHelper {
-	h := pgxhelper.New(pool, opts...)
-
+func New(sqlSet *sqlset.SQLSet, opts ...pgxhelper.Option) *DBHelper {
 	return &DBHelper{
-		DBHelper: h,
+		DBHelper: pgxhelper.New(opts...),
 		sqlSet:   sqlSet,
 	}
 }
