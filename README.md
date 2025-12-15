@@ -55,7 +55,7 @@ func main() {
 	connStr := "postgres://user:password@localhost:5432/database?sslmode=disable"
 
 	// 1. Initialize and connect
-	db := &pgxhelper.DBHelper{}
+	db := pgxhelper.New()
 	if err := db.Connect(connStr, 5*time.Second); err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
@@ -116,7 +116,7 @@ func main() {
 }
 ```
 
-## API Overview
+## `pgxhelper` API Overview
 
 ### `pgxhelper.DBHelper`
 
@@ -133,3 +133,9 @@ The main struct that holds the database connection pool.
 - **`Exec(ctx context.Context, query string, args ...any) (int64, error)`**: Executes a command (e.g., `INSERT`, `UPDATE`, `DELETE`) and returns the number of rows affected.
 - **`WithinTransaction(ctx context.Context, fn func(ctx context.Context) error, opt ...pgx.TxOptions) error`**: Executes the function `fn` within a database transaction. The transaction is automatically committed if `fn` returns `nil`, or rolled back if it returns an error. The context passed to `fn` carries the transaction.
 - **`Querier(ctx context.Context) Querier`**: Returns the underlying `pgx.Tx` if the context is transactional, otherwise returns the `pgxpool.Pool`. This is useful for interoperability with other libraries.
+
+## `sqlsetpgxhelper`
+
+The `sqlsetpgxhelper` package provides a `DBHelper`, which is an alternative to the main `pgxhelper.DBHelper`. It is designed to work with the [sqlset](https://github.com/nofeaturesonlybugs/sqlset) library, allowing you to manage your SQL queries in separate files instead of embedding them as strings in your Go code.
+
+This is particularly useful for larger projects where separating SQL from application logic improves maintainability.
