@@ -29,9 +29,8 @@ func WithScanAPI(scanAPI *pgxscan.API) Option {
 }
 
 // New creates and returns a new DBHelper.
-func New(pool *pgxpool.Pool, opts ...Option) *DBHelper {
+func New(opts ...Option) *DBHelper {
 	h := &DBHelper{
-		pool:    pool,
 		scanAPI: mustNewAPI(mustNewDBScanAPI(dbscan.WithAllowUnknownColumns(true))),
 	}
 
